@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+
+		<title>Les Regex</title>
+
+		<link rel="stylesheet" href="dist/reset.css" />
+		<link rel="stylesheet" href="dist/reveal.css" />
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme" />
+
+		<!-- Theme used for syntax highlighted code -->
+		<link
+			rel="stylesheet"
+			href="plugin/highlight/monokai.css"
+			id="highlight-theme"
+		/>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-color="#ff5959">
+					<p class="r-fit-text">
+						Nous allons découvrir les Expressions Régulière<br />
+						Les REGEXP
+					</p>
+					<ul>
+						<li>Définir ce qu'est une expression Régulière</li>
+						<li>Découverte de la syntaxe générale</li>
+						<li>Quelques exemples</li>
+						<li>Ressources</li>
+					</ul>
+				</section>
+				<section data-background-color="rgb(70, 70, 255)">
+					<section>Définition d'une expression Régulière</section>
+					<section>
+						Une expression Régulière (expression rationnelles) est
+						un pattern, selon la doc, il est dit : <br />
+						"Les expressions rationnelles sont des motifs utilisés
+						pour correspondre à certaines combinaisons de caractères
+						au sein de chaînes de caractères"
+						<br />
+						On va chercher à remplacer ou capturer des chaînes de
+						caractères qui ressemble à ce qu'on a defini. (En
+						JavaScript les REGEXP sont aussi des objets.)
+					</section>
+				</section>
+				<section data-background-color="#1e2a78" >
+					<section>Créer une expression</section>
+					<section>
+						La plus simple, la plus utilisé
+						<pre><code data-trim data-noescape>
+								const myRegEx = /pattern/flags;</code></pre>
+						L'autre façon de faire
+						<pre><code data-trim data-noescape>
+								const myRegEx = new RegExp("pattern");</code></pre>
+					</section>
+					<section>
+						Il n'y a pas de différence fondamentale entre les 2.
+						<br />
+						Cependant, chacun à son utilité (fixe dans l'un variable
+						dans l'autre)
+					</section>
+				</section>
+				<section data-background-color="#6e3b3b">
+					<section>Exemples</section>
+					<section data-markdown>
+						<textarea data-template>
+						  ```js [1-2|6-8|10-13|15-19|22-24]
+						const regex1 = /pattern/;
+						const str = `Je suis une string et je contient le mot pattern`;
+
+						/** Utilisation */
+
+						// test : teste la présence d'un regexp dans une chaine : return boolean
+						console.log("test : ", regex1.test(str));
+						// test : true
+
+						// search : renvoi la position d'une regexp dans une str.
+						// Renvoie un number (-1 si non présente)
+						console.log("search : ", str.search(regex1));
+						// search : 42
+
+						// match ou exec : renvoi un array d'info 
+						// ou null si regexp absente
+						console.log("match : ", str.match(regex1));
+						console.log("exec : ", regex1.exec(str));
+						// les 2 lignes sont similaire, change selon le bout qu'on prend
+						
+
+						// replace : remplace une regexp par une str dans une autre str
+						console.log("replace : ", str.replace(regex1, "changement"));
+						// replace : Je suis une string et je contient le mot changement
+
+						  ```
+						</textarea
+						>
+					</section>
+				</section>
+				<section data-background-color="#9c1de7" >
+					<section>Appréhendons les cas complexes</section>
+
+					<section>
+						<a
+							href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Expressions_r%C3%A9guli%C3%A8res/Quantificateurs"
+							>Les Quantificateurs</a
+						>
+					</section>
+					<section>
+						<span style="color: #f8f32b">x*</span> = Correspond à
+						l'expression précédente qui est répétée 0 ou plusieurs
+						fois. Équivalent à {0,}<br />
+						<span style="color: #f8f32b">x+</span> = Correspond à
+						l'expression précédente qui est répétée une ou plusieurs
+						fois. C'est équivalent à {1,}.<br />
+						<span style="color: #f8f32b">x?</span> = Correspond à
+						l'expression précédente qui est présente une fois ou pas
+						du tout. C'est équivalent à {0,1}.<br />
+					</section>
+					<section>
+						<span style="color: #f8f32b">x{n}</span> = Correspond
+						pour exactement n occurences de l'expression précédente.
+						N doit être un entier positif.<br />
+						<span style="color: #f8f32b">x{n,}</span> = Correspond
+						lorsqu'il y a au moins n occurences de l'expression
+						précédente. n doit être un entier positif.<br />
+						<span style="color: #f8f32b">x{n,m}</span> = Lorsque n
+						et m sont des entiers positifs, cela correspond à au
+						moins n occurences de l'expression précédente et à au
+						plus m occurrences. Lorsque m n'est pas utilisé, la
+						valeur par défaut correspondante sera l'infini.
+					</section>
+					<section>
+						<a
+							href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Expressions_r%C3%A9guli%C3%A8res/Limites"
+							>Les limites</a
+						>
+					</section>
+					<section>
+						<span style="color: #f8f32b">^</span> = Correspond au
+						début la séquence. Si le marqueur (flag) de lignes
+						multiples vaut true, il correspondra également
+						immédiatement après un caractère de saut de ligne.<br />
+						<span style="color: #f8f32b">$</span> = Correspond à la
+						fin de la séquence. Si le marqueur (flag) de lignes
+						multiples vaut true, il correspondra également
+						immédiatement avant un caractère de saut de ligne.
+
+						<br />
+					</section>
+					<section>
+						<a
+							href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Expressions_r%C3%A9guli%C3%A8res/Classes_de_caract%C3%A8res"
+							>Les Classes de caractères</a
+						>
+						<p>Nous allons les voir directements !</p>
+					</section>
+					<section>
+						<div>
+							<p>Définissons d'une classe de caractères</p>
+							<p>
+								Pour ce faire, nous allons juste les mettres entre crochet []
+							</p>
+							<p>
+								<pre><code data-trim data-noescape>
+								const myRegEx = /[a-Z]/;
+								/* équivaut à [a-zA-Z] car dans la table ASCII les miniscule 
+								/sont avant les majuscule c'est ce qu'on appel 
+								une range de classe*/ </code></pre>
+							</p>
+						</div>
+					</section>
+					<section>
+						<div>
+							<p>Définissons du groupe</p>
+							<p>
+								Pour ce faire, nous allons juste mettre ce que nous recherchons dans des parenthèses ()
+							</p>
+							<p>
+								<pre><code data-trim data-noescape>
+								const myRegEx = /(c\S*)/gi;
+								const str = "Je suis une chaine de caractère qui contient le mot pattern"
+								/* Grâce aux parenthèse, nous avons crée un groupe de 3 mots*/ </code></pre>
+							</p>
+						</div>
+					</section>
+				</section>
+
+				<section data-background-color="#071e3d">
+					<section>Ressources</section>
+					<section>
+						<ul>
+							<li>
+								<a
+									href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Expressions_r%C3%A9guli%C3%A8res"
+									target="_blank"
+									rel="noopener noreferrer"
+									>Doc MDN</a
+								>
+							</li>
+							<li>
+								<a
+									href="https://regex101.com/"
+									target="_blank"
+									rel="noopener noreferrer"
+									>Regex101</a
+								>
+							</li>
+						</ul>
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+			});
+		</script>
+	</body>
+</html>
